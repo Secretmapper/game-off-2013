@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<title>BigIssues</title>
+	<meta name="description" content="" />
+	
+	<script src="js/swfobject.js"></script>
+	<script>
+		var flashvars = {
+		};
+		var params = {
+			menu: "false",
+			scale: "noScale",
+			allowFullscreen: "true",
+			allowScriptAccess: "always",
+			bgcolor: "",
+			wmode: "direct" // can cause issues with FP settings & webcam
+		};
+		var attributes = {
+			id:"BigIssues"
+		};
+		swfobject.embedSWF(
+			"BigIssues.swf", 
+			"altContent", "667px", "525px", "10.0.0", 
+			"expressInstall.swf", 
+			flashvars, params, attributes);
+	</script>
+	<style>
+		html, body { height:100%; overflow:hidden; }
+		body { margin:auto; background:black }
+		#main  { position:absolute; align:center; height:667px; width:525px;  position: absolute;
+						top: 50%;
+						left: 50%;
+						margin-left: -333px;
+						margin-top: -262px;}
+		#altContent { position:absolute; align:center; height:667px; width:525px;  position: absolute;
+						top: 50%;
+						left: 50%;
+						margin-left: -333px;
+						margin-top: -262px;}
+	</style>
+</head>
+<body>
+	<div id="main">
+		<div id="altContent">
+			<h1>BigIssues</h1>
+			<p><a href="http://www.adobe.com/go/getflashplayer">Get Adobe Flash player</a></p>
+		</div>
+	</div>
+</body>
+</html>
