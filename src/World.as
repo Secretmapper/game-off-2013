@@ -33,17 +33,7 @@ package
 		
 		public function update(e:Event = null):void
 		{
-			for each(var entity:Civilian in civList)
-			{
-				entity.update();
-				if ((entity.flip && entity.sprite.x <= -50) ||(!entity.flip && entity.sprite.x > 1600))
-				{
-					civList.splice(civList.indexOf(entity), 1)
-					entityList.splice(entityList.indexOf(entity), 1);
-					removeChild(entity);
-					entity = null;
-				}
-			}
+			
 		}
 	}
 

@@ -22,19 +22,31 @@
 		};
 		swfobject.embedSWF(
 			"BigIssues.swf", 
-			"altContent", "100%", "100%", "10.0.0", 
+			"altContent", "667px", "525px", "10.0.0", 
 			"expressInstall.swf", 
 			flashvars, params, attributes);
 	</script>
 	<style>
 		html, body { height:100%; overflow:hidden; }
-		body { margin:0; }
+		body { margin:auto; background:black }
+		#main  { position:absolute; align:center; height:667px; width:525px;  position: absolute;
+						top: 50%;
+						left: 50%;
+						margin-left: -333px;
+						margin-top: -262px;}
+		#altContent { position:absolute; align:center; height:667px; width:525px;  position: absolute;
+						top: 50%;
+						left: 50%;
+						margin-left: -333px;
+						margin-top: -262px;}
 	</style>
 </head>
 <body>
-	<div id="altContent">
-		<h1>BigIssues</h1>
-		<p><a href="http://www.adobe.com/go/getflashplayer">Get Adobe Flash player</a></p>
+	<div id="main">
+		<div id="altContent">
+			<h1>BigIssues</h1>
+			<p><a href="http://www.adobe.com/go/getflashplayer">Get Adobe Flash player</a></p>
+		</div>
 	</div>
 </body>
 </html>

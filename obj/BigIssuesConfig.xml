@@ -16,7 +16,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'11/29/2013'</value>
+      <value>'12/1/2013'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -38,7 +38,6 @@
       <path-element>C:\FD\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>D:\Dropbox\BIG_ISSUES\BigIssues\lib\starling.swc</path-element>
       <path-element>D:\Dropbox\BIG_ISSUES\BigIssues\lib\as3-utils.swc</path-element>
       <path-element>D:\Dropbox\BIG_ISSUES\BigIssues\assets\BigIssues.swc</path-element>
       <path-element>D:\Dropbox\BIG_ISSUES\BigIssues\lib\greensock.swc</path-element>

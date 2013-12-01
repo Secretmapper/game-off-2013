@@ -18,12 +18,12 @@ package objects
 			
 			_money = 5;
 			_chance = 5;
-			xAccel = 1;
+			xAccel = 3;
 			
 			if (flip)
 			{
 				_sprite.biggie.scaleX *= -1;
-				_sprite.biggie.x += 170;
+				_sprite.biggie.x += 200;
 				xAccel *= -1;
 			}
 		}

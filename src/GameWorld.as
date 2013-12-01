@@ -3,9 +3,12 @@ package
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
+	import flash.media.Sound;
+	import flash.media.SoundTransform;
 	import flash.net.URLRequest;
 	import flash.ui.MultitouchInputMode;
 	import objects.Civilian;
@@ -45,6 +48,15 @@ package
 		protected var back:MovieClip;
 		
 		protected var timeline:TimelineMax;
+		
+		protected var biggieCounter:int;
+		
+		[Embed(source = "../assets/Gymnopedie No 3.mp3")]
+		private var song:Class;
+		
+		//[Embed(source="../assets/valencia.mp3")]
+		//private var streetnoise:Class;
+		
 		public function GameWorld(layer:MovieClip) 
 		{
 			super();
@@ -53,11 +65,18 @@ package
 			hud_f = new Hud_lib;
 			
 			//hud_f.x += hud_f.width / 2;
-			hud_f.y += hud_f.height / 2;
+			hud_f.y += hud_f.height / 2 - 3;
 			hud_f.coinsTxt.text = "0";
 			hud_f.coinsTxt.text = "0";
-			layer.addChild(hud_f);
+			
 			counter = 0;
+			var lightbox:Lightbox_lib = new Lightbox_lib();
+			lightbox.x = lightbox.width / 2;
+			lightbox.y = lightbox.height / 2;
+			layer.addChild(lightbox);
+			lightbox.mouseEnabled = lightbox.mouseChildren = false;
+			
+			layer.addChild(hud_f);
 			
 			back = new Background_lib();
 			back.y = 500 / 2  + hud_f.height / 2;
@@ -82,6 +101,12 @@ package
 			
 			timeline = new TimelineMax();
 			
+			var s:Sound = new song as Sound;
+			s.play(0, 30, new SoundTransform(0.425, 0));
+			
+			//var street:Sound = new streetnoise as Sound;
+			//street.play(0, 30, new SoundTransform(0.075,0));
+			
 			var left:Scroll_left_lib = new Scroll_left_lib();
 			left.y = 300;
 			left.x = left.width;
@@ -98,6 +123,7 @@ package
 			mc.addEventListener(MouseEvent.MOUSE_OVER, onCamera);
 			mc.addEventListener(MouseEvent.MOUSE_OUT, onCameraOut);
 			mc.stop();
+			
 			layer.addChild(mc);
 			
 			tut  = new Tut_lib();
@@ -115,6 +141,9 @@ package
 			layer.addChild(donate);
 			
 			this.x = -750;
+			
+			biggieCounter = 10;
+			layer.mouseEnabled = false;
 		}
 		
 		protected function onDonate(e:MouseEvent):void
@@ -236,7 +265,7 @@ package
 			quoteWrapper("Money spent on weight-loss programs are five times the amount needed to solve world hunger");
 			quoteWrapper("Money spent on pet food is more than the amount needed to solve world hunger");
 			
-			quoteWrapper("The 100 thousand tons of food wasted everyday is enough to feed the hungr");
+			quoteWrapper("The 100 thousand tons of food wasted everyday is enough to feed the hungry");
 			quoteWrapper("35% of school lunches end up in the bin");
 			
 			quoteWrapper("There are over 100 million street children worldwide");
@@ -285,6 +314,20 @@ package
 		{
 			super.update();
 			
+			for each(var entity:Civilian in civList)
+			{
+				entity.update();
+				if ((entity.flip && entity.sprite.x <= -1200) ||(!entity.flip && entity.sprite.x > 1600))
+				{
+					civList.splice(civList.indexOf(entity), 1)
+					entityList.splice(entityList.indexOf(entity), 1);
+					removeChild(entity);
+					entity.destroy();
+					entity.removeEventListener(MouseEvent.CLICK, onCivClick);
+					entity = null;
+				}
+			}
+			
 			if (cameraVel > 0)
 			{
 				if(!(this.x >= 850))
@@ -329,7 +372,7 @@ package
 					return;
 					
 					spawn();
-				if (counter == 3)
+				if (counter == 4)
 				{
 					food();
 					counter = 0;
@@ -339,16 +382,30 @@ package
 		
 		public function spawn():void
 		{
+			biggieCounter--;
+
 			var flip:Boolean = false;
 			if (randomIntegerWithinRange(0, 1) == 0)
 				flip = true;
-				
+			
+			if (randomIntegerWithinRange(0,  5) == 0 || biggieCounter <= 0) //not so random randomness
+			{
+				biggieCounter = 10;
 				var bbm:BigBusinessMan = new BigBusinessMan(flip);
 					//bbm.sprite.scaleX = bbm.sprite.scaleY = 0.75;
 					bbm.addEventListener(MouseEvent.CLICK, onCivClick);
 					bbm.sprite.x = (flip) ? 1600  : -1000;
 					bbm.y = 450;
 					add(bbm);
+			} else
+			{
+				var civ:CivilianOne = new CivilianOne(flip);
+					//bbm.sprite.scaleX = bbm.sprite.scaleY = 0.75;
+					civ.addEventListener(MouseEvent.CLICK, onCivClick);
+					civ.sprite.x = (flip) ? 1600  : -1000;
+					civ.y = 450;
+					add(civ);
+			}
 		}
 		
 		override public function add(entity:Entity):void 
@@ -366,10 +423,11 @@ package
 			if (civ.clicked())
 			{
 				money += civ.money;
-				hud_f.coinsTxt.text = money.toString();
-				var pText:MovieClip = new Plus_Text_lib();
+				hud_f.coinsTxt.text = Math.max(0, money).toString();
+				var pText:Plus_Text_lib = new Plus_Text_lib();
 				pText.x = 500;
 				pText.y = 10;
+				pText.plusText.text = "+ " + civ.money;
 				hud_f.addChild(pText);
 				TweenMax.to(pText, 1, { alpha:0, y:"+15", onComplete:function():void { hud_f.removeChild(pText);  pText = null; } }).delay(2);
 			}
@@ -379,6 +437,12 @@ package
 		protected function food():void
 		{
 			money -= 10;
+			if (money < 0)
+			{
+				money = 0;
+				return;
+			}
+			//money -= Math.max(0, money);
 			hud_f.coinsTxt.text = money.toString();
 			var pText:MovieClip = new Minus_Text_lib();
 			pText.x = 500;

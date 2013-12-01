@@ -1,7 +1,11 @@
 package objects 
 {
+	import com.greensock.plugins.SoundTransformPlugin;
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	import flash.media.SoundTransform;
 	import utils.number.randomIntegerWithinRange;
 	/**
 	 * ...
@@ -14,11 +18,21 @@ package objects
 		protected var _chance:int;
 		public var flip:Boolean;
 		
+		[Embed(source = "../../assets/steps.mp3")]
+		private var foot:Class;
+		
+		private var footstep:Sound;
+		private var footChannel:SoundChannel;
+		
 		public function Civilian() 
 		{
 			super();
 			_money = 0;
 			_chance = 0;
+			
+			footstep = new foot as Sound;
+			footChannel = new SoundChannel;
+			footChannel = footstep.play(0, 30, new SoundTransform(0.075, 0));
 		}
 		
 		override public function added():void 
@@ -56,6 +70,12 @@ package objects
 		public function get sprite():MovieClip 
 		{
 			return _sprite;
+		}
+		
+		public function destroy():void
+		{
+			footChannel.stop();
+			footChannel = null;
 		}
 	}
 

@@ -30,8 +30,8 @@ package
 			
 			// TODO show loader
 			loader.text = "0/100";
-			loader.x = stage.x / 2;
-			loader.y = stage.y / 2;
+			loader.x = 333;
+			loader.y = 262;
 			addChild(loader);
 		}
 		
@@ -42,7 +42,7 @@ package
 		
 		private function progress(e:ProgressEvent):void 
 		{
-			loader.text = "Loaded: " + ((e.bytesLoaded / e.bytesTotal) * 100) + "/100";
+			loader.text = "Loaded: " + (((e.bytesLoaded / e.bytesTotal) * 100) as int) + "/100";
 		}
 		
 		private function checkFrame(e:Event):void 

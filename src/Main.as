@@ -6,6 +6,15 @@ package
 	import net.hires.debug.Stats;
 
 	/**
+	 * Credits:
+		 * "Gymnopedie No. 3" Kevin MacLeod (incompetech.com) 
+Licensed under Creative Commons: By Attribution 3.0
+http://creativecommons.org/licenses/by/3.0/
+	
+	
+	 freesfx.co.uk 
+	 */
+	/**
 	 * ...
 	 * @author Secretmapper
 	 */
@@ -26,7 +35,6 @@ package
 			var layer:MovieClip = new MovieClip();
 			addChild(new GameWorld(layer));
 			addChild(layer);
-			addChild(new Stats());
 		}
 
 	}
